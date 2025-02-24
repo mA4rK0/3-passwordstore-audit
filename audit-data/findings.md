@@ -1,4 +1,4 @@
-### [S-#] Storing the password on-chain makes it visible to anyone, and no longer private
+### [H-1] Storing the password on-chain makes it visible to anyone, and no longer private
 
 **Description:** All data stored on-chain is visible to anyone, and can be read directly from the blockchain. The `PasswordStore::s_password` variable is intended to be a private variable and only accessed through the `PasswordStore::getPassword` function, which is intended to be only called by the owner of the contract.
 
@@ -48,7 +48,13 @@ myPassword
 
 **Recommended Mitigation:** Due to this, the overall architecture of the contract should be rethought. One could encrypt the password off-chain, and then store the encrypted password on-chain. This would require the user to remember another password off-chain to decrypt the password. However, you'd also likely want to remove the view function as you wouldn't want the user to accidentally send a transaction with the password that decrypts your password.
 
-### [S-#] `PasswordStore::setPassword` has no access controls, meaning a non-owner could change the password
+## Likelihood & Impact:
+
+- Impact: HIGH
+- Likelihood: HIGH
+- Severity: HIGH
+
+### [H-2] `PasswordStore::setPassword` has no access controls, meaning a non-owner could change the password
 
 **Description:** The `PasswordStore::setPassword` function is set to be an external function, however, the natspec of the function and overall purpose of the smart contract is that `This function allows only the owner to set a new password.`
 
@@ -95,7 +101,13 @@ if(msg.sender != s_owner) {
 }
 ```
 
-### [S-#] The `PasswordStore::getPassword` natspec indicates a parameter that doesn't exist, causing the natspec to be incorrect
+## Likelihood & Impact:
+
+- Impact: HIGH
+- Likelihood: HIGH
+- Severity: HIGH
+
+### [I-1] The `PasswordStore::getPassword` natspec indicates a parameter that doesn't exist, causing the natspec to be incorrect
 
 **Description:**
 
@@ -116,3 +128,9 @@ The `PasswordStore::getPassword` function signature is `getPassword()` while the
 ```diff
 -    * @param newPassword The new password to set.
 ```
+
+## Likelihood & Impact:
+
+- Impact: NONE
+- Likelihood: HIGH
+- Severity: Informational
